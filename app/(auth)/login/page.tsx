@@ -1,14 +1,14 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { supabase } from '@/app/supabase-client';
+import { getSupabaseClient } from '@/app/supabase-client';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
   const router = useRouter();
 
   const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { error } = await getSupabaseClient().auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: `${window.location.origin}/dashboard`,
