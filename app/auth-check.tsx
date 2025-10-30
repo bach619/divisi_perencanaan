@@ -12,7 +12,7 @@ export function AuthCheck({ children }: { children: React.ReactNode }) {
       const { data, error } = await getSupabaseClient().auth.getSession();
       
       if (!data.session || error) {
-        router.replace('/');
+        router.replace('/login');
       }
     };
 
