@@ -1,5 +1,7 @@
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
+"use client"
 
+import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
+import { useProposals } from "@/components/proposal-context"
 import { Badge } from "@/components/ui/badge"
 import {
   Card,
@@ -11,13 +13,46 @@ import {
 } from "@/components/ui/card"
 
 export function SectionCards() {
+  const { proposals } = useProposals()
+
+  const totalAnggaranDisetujui = proposals
+    .filter((p) => p.status === "Disetujui")
+    .reduce((acc, p) => acc + p.jumlahAnggaran, 0)
+
+  const formattedAnggaran = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(totalAnggaranDisetujui)
+
+  const totalAnggaranRutin = proposals
+    .filter((p) => p.kategori === "Rutin" && p.status === "Disetujui")
+    .reduce((acc, p) => acc + p.jumlahAnggaran, 0)
+
+  const formattedAnggaranRutin = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(totalAnggaranRutin)
+
+  const totalAnggaranProject = proposals
+    .filter((p) => p.kategori === "Project" && p.status === "Disetujui")
+    .reduce((acc, p) => acc + p.jumlahAnggaran, 0)
+
+  const formattedAnggaranProject = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(totalAnggaranProject)
+
+
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Anggaran</CardDescription>
+          <CardDescription>Total Anggaran</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            Rp1,250,000 Juta
+            {formattedAnggaran}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -37,9 +72,9 @@ export function SectionCards() {
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Total Karbon</CardDescription>
+          <CardDescription>Total Anggaran Rutin</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
+            {formattedAnggaranRutin}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -59,9 +94,9 @@ export function SectionCards() {
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Nilai Karbon</CardDescription>
+          <CardDescription>Total Anggaran Project</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $145,678 Juta
+            {formattedAnggaranProject}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
