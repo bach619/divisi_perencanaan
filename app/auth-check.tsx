@@ -17,7 +17,7 @@ export function AuthCheck({ children }: { children: React.ReactNode }) {
     };
 
     checkAuth();
-  }, []);
+  }, [router]);
 
   return <>{children}</>;
 }
