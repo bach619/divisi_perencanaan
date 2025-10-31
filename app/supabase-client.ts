@@ -1,20 +1,16 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createBrowserClient } from '@supabase/ssr';
 
-let supabase: SupabaseClient | null = null;
+let client: ReturnType<typeof createBrowserClient> | undefined;
 
-export function getSupabaseClient(): SupabaseClient {
-  if (typeof window === 'undefined') {
-    throw new Error('Supabase client can only be initialized in the browser.');
+export function getSupabaseClient() {
+  if (client) {
+    return client;
   }
 
-  if (!supabase) {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  client = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
 
-    if (!url || !key) {
-      throw new Error('Missing NEXT_PUBLIC_SUPABASE_* env variables');
-    }
-    supabase = createClient(url, key);
-  }
-  return supabase;
+  return client;
 }
