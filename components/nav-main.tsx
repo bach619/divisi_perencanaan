@@ -59,7 +59,7 @@ export function NavMain({
 }) {
   const pathname = usePathname()
   const { addProposal } = useProposals()
-  const [open, setOpen] = React.useState(false)
+  const [, setOpen] = React.useState(false)
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
