@@ -18,7 +18,7 @@ export function AuthCheck({ children }: { children: React.ReactNode }) {
     };
 
     checkAuth();
-  }, [router]);
+  }, [router]); // The linter is likely mistaken, but let's ensure it's correct. No changes needed here if router is present.
 
   return <>{children}</>;
 }
