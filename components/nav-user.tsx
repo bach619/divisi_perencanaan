@@ -47,7 +47,7 @@ export function NavUser({
     const supabase = getSupabaseClient()
     await supabase.auth.signOut()
     // Full page refresh to ensure session is cleared
-    window.location.href = "/login"
+    window.location.href = "/"
   }
 
   return (
