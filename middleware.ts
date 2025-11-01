@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
 
   // Tentukan rute yang dilindungi. Semua rute kecuali halaman login (root).
   // Anda bisa menambahkan rute publik lain di sini jika ada, misal: !pathname.startsWith('/about')
-  const isProtectedRoute = pathname !== '/';
+  const isProtectedRoute = pathname.startsWith('/dashboard') || pathname.startsWith('/account') || pathname.startsWith('/perencanaan') || pathname.startsWith('/projects');
 
   if (!session && isProtectedRoute) {
     // Redirect ke halaman login
