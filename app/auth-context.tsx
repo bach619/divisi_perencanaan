@@ -20,15 +20,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const supabase = getSupabaseClient();
+
+    // onAuthStateChange akan dipanggil saat inisialisasi dan setiap kali status auth berubah.
+    // Ini sudah cukup untuk menangani pengecekan awal dan pembaruan.
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    // Initial check
-    supabase.auth.getSession().then(({ data: { session } }: { data: { session: Session | null } }) => {
       setUser(session?.user ?? null);
       setLoading(false);
     });
