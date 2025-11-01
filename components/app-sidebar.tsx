@@ -19,6 +19,7 @@ import {
   IconUsers,
 } from "@tabler/icons-react"
 
+import { useAuth } from "@/app/auth-context"
 import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
@@ -34,21 +35,21 @@ import {
 } from "@/components/ui/sidebar"
 
 const data = {
-  user: {
-    name: "Boby",
-    email: "boby@antang.org",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: IconDashboard,
     },
     {
       title: "Perencanaan",
-      url: "#",
+      url: "/perencanaan",
       icon: IconListDetails,
+    },
+    {
+      title: "Projects",
+      url: "/projects",
+      icon: IconFolder,
     },
     {
       title: "Budgeting",
@@ -64,11 +65,6 @@ const data = {
       title: "Analitik",
       url: "#",
       icon: IconChartBar,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
     },
     {
       title: "Team",
@@ -161,6 +157,8 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user } = useAuth()
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -172,7 +170,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Antang - Div Perencanaan</span>
+                <span className="text-base font-semibold">
+                  Antang - Div Perencanaan
+                </span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -184,7 +184,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        {user && (
+          <NavUser
+            user={{
+              name: user.user_metadata.full_name || "User",
+              email: user.email || "",
+              avatar: user.user_metadata.avatar_url || "/avatars/shadcn.jpg",
+            }}
+          />
+        )}
       </SidebarFooter>
     </Sidebar>
   )

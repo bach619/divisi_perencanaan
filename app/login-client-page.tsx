@@ -62,22 +62,22 @@ export default function LoginClientPage() {
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
               <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">P</span>
+                <span className="text-white font-bold text-xl">YAMAL</span>
               </div>
-              <span className="text-2xl font-bold text-gray-900">YourBrand</span>
+              <span className="text-2xl font-bold text-gray-900">YAYASAN ANTANGPATAHU MAHAGA LEWU</span>
             </div>
           </div>
 
           {/* Title */}
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Log in</h1>
             <p className="text-gray-600">
-              Don&apos;t have an account?{' '}
+              Don't have an account?{' '}
               <Link href="#" className="text-green-600 hover:text-green-700 font-medium">
                 Sign up
               </Link>
             </p>
-          </div>
+          </div> */}
 
           {/* Error Alert */}
           {error && (
