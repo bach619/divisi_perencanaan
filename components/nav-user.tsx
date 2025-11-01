@@ -46,8 +46,8 @@ export function NavUser({
   const handleLogout = async () => {
     const supabase = getSupabaseClient()
     await supabase.auth.signOut()
-    // Arahkan ke halaman login setelah logout berhasil
-    router.push("/login")
+    // Full page refresh to ensure session is cleared
+    window.location.href = "/login"
   }
 
   return (

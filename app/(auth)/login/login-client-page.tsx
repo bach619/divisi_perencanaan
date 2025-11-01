@@ -56,8 +56,8 @@ export default function LoginClientPage() {
     if (error) {
       setError(error.message);
     } else {
-      // Redirect to dashboard, and refresh to update server session
-      router.replace('/dashboard');
+      // Full page refresh to ensure server session is updated
+      window.location.href = '/dashboard';
     }
   };
 
