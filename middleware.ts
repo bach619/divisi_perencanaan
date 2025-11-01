@@ -1,6 +1,8 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { createClient } from './server';
 
+export const runtime = 'nodejs';
+
 export async function middleware(request: NextRequest) {
   // Buat respons dan Supabase client.
   // Destrukturisasi dengan benar untuk mendapatkan `supabase` dan `response`.
