@@ -6,7 +6,6 @@ import {
   IconCirclePlusFilled,
   IconFilePlus,
   IconFileUpload,
-  IconUpload,
   IconMail,
   type Icon,
 } from "@tabler/icons-react"
@@ -104,9 +103,6 @@ export function NavMain({
                       <IconFilePlus /> Proposal Baru
                     </DropdownMenuItem>
                   </DrawerTrigger>
-                  <DropdownMenuItem>
-                    <IconFileUpload /> Impor dari File
-                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
               <Button

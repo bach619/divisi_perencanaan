@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { User } from '@supabase/supabase-js';
 import { AppSidebar } from "@/components/app-sidebar";
 import { getSupabaseClient } from '@/app/supabase-client';
 import { SiteHeader } from "@/components/site-header";
@@ -13,11 +14,11 @@ import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar";
-import { Camera, Lock, Bell, Shield, Eye, Globe, User, Mail, Phone, MapPin, Cake, Users } from 'lucide-react';
+import { Camera, Lock, Bell, Shield, Eye, Globe, User as UserIcon, Mail, Phone, MapPin, Cake, Users } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 
 function AccountPageContent() {
-  const [user, setUser] = React.useState<any>(null);
+  const [user, setUser] = React.useState<User | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [activeSection, setActiveSection] = React.useState('general');
   const [uploading, setUploading] = React.useState(false);
@@ -49,6 +50,10 @@ function AccountPageContent() {
 
   const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
+      if (!user) {
+        throw new Error('User not found.');
+      }
+
       setUploading(true);
       if (!event.target.files || event.target.files.length === 0) {
         throw new Error('You must select an image to upload.');
@@ -84,8 +89,12 @@ function AccountPageContent() {
       const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user ?? null);
 
-    } catch (error: any) {
-      alert(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('An unknown error occurred');
+      }
     } finally {
       setUploading(false);
     }
@@ -115,8 +124,12 @@ function AccountPageContent() {
       const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user ?? null);
 
-    } catch (error: any) {
-      alert(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('An unknown error occurred');
+      }
     } finally {
       setSaving(false);
     }
@@ -141,7 +154,7 @@ function AccountPageContent() {
   }
 
   const menuItems = [
-    { id: 'general', label: 'General', icon: User },
+    { id: 'general', label: 'General', icon: UserIcon },
     { id: 'security', label: 'Security & Login', icon: Lock },
     { id: 'privacy', label: 'Privacy', icon: Shield },
     { id: 'notifications', label: 'Notifications', icon: Bell },
@@ -195,7 +208,7 @@ function AccountPageContent() {
                             alt={user.user_metadata.full_name || 'User'} 
                           />
                           <AvatarFallback className="text-4xl">
-                            {user.email.charAt(0).toUpperCase()}
+                            {user.email?.charAt(0).toUpperCase()}
                           </AvatarFallback>
                         </Avatar>
                         <label htmlFor="avatar-upload" className="absolute bottom-2 right-2 bg-gray-100 hover:bg-gray-200 p-3 rounded-full shadow-md transition-colors cursor-pointer">
@@ -214,7 +227,7 @@ function AccountPageContent() {
                         <h3 className="text-2xl font-bold mb-1">
                           {user.user_metadata.full_name || 'User'}
                         </h3>
-                        <p className="text-gray-600 mb-4">{user.email}</p>
+                        <p className="text-gray-600 mb-4">{user.email || ''}</p>
                         <label htmlFor="avatar-upload-button">
                             <Button asChild variant="outline" className="gap-2 cursor-pointer">
                                 <span>
@@ -365,7 +378,7 @@ function AccountPageContent() {
                   <CardContent className="p-6">
                     <h2 className="text-xl font-semibold mb-4">Login Activity</h2>
                     <p className="text-gray-600 mb-4">
-                      See where you're logged in and manage your active sessions.
+                      See where you&apos;re logged in and manage your active sessions.
                     </p>
                     <Button variant="outline">View Login Activity</Button>
                   </CardContent>
@@ -447,14 +460,14 @@ function AccountPageContent() {
                     <div className="bg-gray-50 rounded-lg p-6 border">
                       <div className="flex items-center gap-4 mb-4">
                         <Avatar className="h-20 w-20 border-2 border-white shadow">
-                          <AvatarImage src={user.user_metadata.avatar_url || '/avatars/shadcn.jpg'} />
+                          <AvatarImage src={user.user_metadata.avatar_url} />
                           <AvatarFallback className="text-2xl">
-                            {user.email.charAt(0).toUpperCase()}
+                            {user.email?.charAt(0).toUpperCase()}
                           </AvatarFallback>
                         </Avatar>
                         <div>
                           <h3 className="text-xl font-bold">{user.user_metadata.full_name || 'User'}</h3>
-                          <p className="text-gray-600">@{user.email.split('@')[0]}</p>
+                          <p className="text-gray-600">@{user.email?.split('@')[0]}</p>
                         </div>
                       </div>
                       <Button variant="outline" className="w-full">

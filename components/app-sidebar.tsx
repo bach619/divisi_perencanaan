@@ -1,5 +1,6 @@
 "use client"
 
+import { User as SupabaseUser } from "@supabase/supabase-js";
 import * as React from "react"
 import {
   IconCamera,
@@ -11,6 +12,7 @@ import {
   IconFileWord,
   IconFolder,
   IconHelp,
+  IconMail,
   IconInnerShadowTop,
   IconListDetails,
   IconReport,
@@ -158,7 +160,7 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [user, setUser] = React.useState<any>(null)
+  const [user, setUser] = React.useState<SupabaseUser | null>(null)
 
   React.useEffect(() => {
     const fetchUser = async () => {
@@ -201,7 +203,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <NavUser
             user={{
               name: user.user_metadata.full_name || "User",
-              email: user.email,
+              email: user.email || "",
               avatar: user.user_metadata.avatar_url || "/avatars/shadcn.jpg",
             }}
           />
