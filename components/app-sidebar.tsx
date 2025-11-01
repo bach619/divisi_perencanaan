@@ -33,12 +33,9 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
+import { getSupabaseClient } from "@/app/supabase-client"
+
 const data = {
-  user: {
-    name: "Boby",
-    email: "boby@antang.org",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Dashboard",
@@ -161,6 +158,20 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [user, setUser] = React.useState<any>(null)
+
+  React.useEffect(() => {
+    const fetchUser = async () => {
+      const supabase = getSupabaseClient()
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      setUser(session?.user ?? null)
+    }
+
+    fetchUser()
+  }, [])
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -172,7 +183,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Antang - Div Perencanaan</span>
+                <span className="text-base font-semibold">
+                  Antang - Div Perencanaan
+                </span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -184,7 +197,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        {user && (
+          <NavUser
+            user={{
+              name: user.user_metadata.full_name || "User",
+              email: user.email,
+              avatar: user.user_metadata.avatar_url || "/avatars/shadcn.jpg",
+            }}
+          />
+        )}
       </SidebarFooter>
     </Sidebar>
   )
