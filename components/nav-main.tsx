@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation"
 import {
   IconCirclePlusFilled,
   IconFilePlus,
-  IconFileUpload,
   IconMail,
   type Icon,
 } from "@tabler/icons-react"

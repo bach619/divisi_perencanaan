@@ -11,7 +11,6 @@ import {
   IconFileWord,
   IconFolder,
   IconHelp,
-  IconMail,
   IconInnerShadowTop,
   IconListDetails,
   IconReport,

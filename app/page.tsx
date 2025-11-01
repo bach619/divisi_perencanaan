@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 // import { IconBrandGoogle, IconLoader2 } from '@tabler/icons-react'; // IconBrandGoogle sudah tidak dipakai
 import { IconLoader2 } from '@tabler/icons-react'; // Hanya butuh IconLoader2
 
@@ -17,7 +16,6 @@ export default function LoginClientPage() {
   const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
-  const router = useRouter();
   const supabase = getSupabaseClient();
 
   /* FUNGSI INI SUDAH TIDAK DIPAKAI SETELAH TOMBOL GOOGLE DIHAPUS
@@ -74,7 +72,7 @@ export default function LoginClientPage() {
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Log in</h1>
             <p className="text-gray-600">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link href="#" className="text-green-600 hover:text-green-700 font-medium">
                 Sign up
               </Link>
