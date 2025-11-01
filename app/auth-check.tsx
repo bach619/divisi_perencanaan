@@ -1,31 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { getSupabaseClient } from '@/app/supabase-client';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { IconLoader2 } from '@tabler/icons-react';
+import { useAuth } from './auth-context';
 
 export function AuthCheck({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { user, loading } = useAuth();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const supabase = getSupabaseClient();
-      const { data, error } = await supabase.auth.getSession();
-      
-      if (!data.session || error) {
-        setIsAuthenticated(false);
-        router.replace('/login');
-      } else {
-        setIsAuthenticated(true);
-      }
-      setLoading(false);
-    };
-
-    checkAuth();
-  }, [router]);
+    if (!loading && !user) {
+      router.replace('/login');
+    }
+  }, [user, loading, router]);
 
   if (loading) {
     return (
@@ -35,9 +23,9 @@ export function AuthCheck({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (isAuthenticated) {
+  if (user) {
     return <>{children}</>;
   }
 
-  return null; // Atau komponen loading lain saat redirect
+  return null; // Atau komponen loading lain saat redirect sedang berlangsung
 }

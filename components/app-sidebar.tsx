@@ -1,6 +1,5 @@
 "use client"
 
-import { User as SupabaseUser } from "@supabase/supabase-js";
 import * as React from "react"
 import {
   IconCamera,
@@ -21,6 +20,7 @@ import {
   IconUsers,
 } from "@tabler/icons-react"
 
+import { useAuth } from "@/app/auth-context"
 import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
@@ -34,8 +34,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-
-import { getSupabaseClient } from "@/app/supabase-client"
 
 const data = {
   navMain: [
@@ -160,19 +158,7 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [user, setUser] = React.useState<SupabaseUser | null>(null)
-
-  React.useEffect(() => {
-    const fetchUser = async () => {
-      const supabase = getSupabaseClient()
-      const {
-        data: { session },
-      } = await supabase.auth.getSession()
-      setUser(session?.user ?? null)
-    }
-
-    fetchUser()
-  }, [])
+  const { user } = useAuth()
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
