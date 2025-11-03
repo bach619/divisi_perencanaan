@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "title": "Pembangunan Jembatan Desa",
+    "submitter": "John Doe",
+    "status": "Pending",
+    "budget": 50000000
+  },
+  {
+    "id": "2",
+    "title": "Perbaikan Jalan Utama",
+    "submitter": "Jane Smith",
+    "status": "Approved",
+    "budget": 75000000
+  },
+  {
+    "id": "3",
+    "title": "Pembangunan Sekolah Baru",
+    "submitter": "Peter Jones",
+    "status": "Rejected",
+    "budget": 200000000
+  }
+]
