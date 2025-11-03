@@ -9,7 +9,7 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Divisi Perencanaan",
+  title: "Kantoor Antang",
   description: "Aplikasi untuk manajemen proposal dan anggaran.",
 }
 
@@ -22,9 +22,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <ProposalProvider>
-            <AuthProvider>{children}</AuthProvider>
-          </ProposalProvider>
+          <AuthProvider>
+            <ProposalProvider>{children}</ProposalProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -1,9 +1,9 @@
 [
   {
     "id": 1,
-    "namaProposal": "Pengadaan Komputer untuk Kantor Pusat",
+    "namaProposal": "Pengadaan Komputer Kantor Cabang",
     "kategori": "Project",
-    "status": "Proses",
+    "status": "Menunggu Validasi",
     "jumlahAnggaran": 75000000,
     "tanggalDibuat": "2024-05-01",
     "executiveSummary": ""
@@ -48,7 +48,7 @@
     "id": 6,
     "namaProposal": "Pembangunan Fasilitas Air Bersih Desa",
     "kategori": "Project",
-    "status": "Proses",
+    "status": "Menunggu Validasi",
     "jumlahAnggaran": 450000000,
     "tanggalDibuat": "2024-05-20",
     "executiveSummary": ""

@@ -2,10 +2,18 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { getSupabaseClient } from '@/app/supabase-client';
-import { User, AuthChangeEvent, Session } from '@supabase/supabase-js';
+import { User, Session } from '@supabase/supabase-js';
+
+export interface UserProfile extends User {
+  profile: {
+    role: string;
+    division: string | null;
+    full_name: string | null;
+  } | null;
+}
 
 interface AuthContextType {
-  user: User | null;
+  user: UserProfile | null;
   loading: boolean;
 }
 
@@ -15,22 +23,48 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const supabase = getSupabaseClient();
 
-    // onAuthStateChange akan dipanggil saat inisialisasi dan setiap kali status auth berubah.
-    // Ini sudah cukup untuk menangani pengecekan awal dan pembaruan.
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
-      setUser(session?.user ?? null);
+    // Fungsi untuk memeriksa sesi saat ini dan mengambil profil
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (session?.user) {
+        const { data: profile, error } = await supabase
+          .from('profiles')
+          .select('role, division, full_name')
+          .eq('id', session.user.id)
+          .single();
+
+        if (error) {
+          console.warn('Warning fetching user profile on initial load:', error.message);
+        }
+        setUser({ ...session.user, profile: profile || null });
+      } else {
+        setUser(null);
+      }
+      // Pastikan loading di-set ke false setelah pengecekan awal selesai
       setLoading(false);
+    };
+
+    // Jalankan pengecekan sesi saat komponen pertama kali dimuat
+    checkSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      // Jika ada perubahan status (misalnya, pengguna login/logout setelah halaman dimuat),
+      // jalankan kembali pengecekan sesi untuk memperbarui data.
+      setLoading(true); // Tampilkan loading saat status berubah
+      await checkSession();
     });
 
-    return () => subscription.unsubscribe();
+    // Cleanup subscription on unmount
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const value = { user, loading };

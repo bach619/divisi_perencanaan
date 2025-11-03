@@ -10,8 +10,8 @@ export function AuthCheck({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.replace('/login');
+    if (!loading && user === null) {
+      router.replace('/');
     }
   }, [user, loading, router]);
 
@@ -23,7 +23,7 @@ export function AuthCheck({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (user) {
+  if (user !== null) {
     return <>{children}</>;
   }
 

@@ -2,7 +2,7 @@
 
 import { AppSidebar } from "@/components/app-sidebar"
 import { DataTable } from "@/components/data-table"
-import { ProposalProvider, useProposals } from "@/components/proposal-context"
+import { useProposals } from "@/components/proposal-context"
 import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
@@ -31,13 +31,11 @@ export function ProjectsPage() {
         } as React.CSSProperties
       }
     >
-      <ProposalProvider>
-        <AppSidebar variant="inset" />
-        <SidebarInset>
-          <SiteHeader />
-          <ProjectsPageContent />
-        </SidebarInset>
-      </ProposalProvider>
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <SiteHeader />
+        <ProjectsPageContent />
+      </SidebarInset>
     </SidebarProvider>
   )
 }
